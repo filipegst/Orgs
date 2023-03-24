@@ -1,44 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.FormularioActivity">
+    android:fillViewport="true"
+    >
 
-    <EditText
-        android:id="@+id/nome"
-        android:hint="Nome"
-        android:layout_margin="16dp"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <EditText
-        android:id="@+id/descricao"
-        android:hint="Descrição"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/nome"
-        app:layout_constraintEnd_toEndOf="@id/nome"
-        app:layout_constraintStart_toStartOf="@id/nome" />
-    <EditText
-        android:id="@+id/valor"
-        android:hint="Valor"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/descricao"
-        app:layout_constraintEnd_toEndOf="@id/descricao"
-        app:layout_constraintStart_toStartOf="@id/descricao" />
-    
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="SALVAR"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        tools:context=".ui.activity.FormularioActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/activityNome"
+            android:hint="Nome"
+            android:layout_margin="16dp"
+            android:layout_width="0dp"
+            android:inputType="text"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/activityDescricao"
+            android:hint="Descrição"
+            android:layout_width="0dp"
+            android:inputType="text"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/activityNome"
+            app:layout_constraintEnd_toEndOf="@id/activityNome"
+            app:layout_constraintStart_toStartOf="@id/activityNome" />
+
+        <EditText
+            android:id="@+id/activityValor"
+            android:hint="Valor"
+            android:layout_width="0dp"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/activityDescricao"
+            app:layout_constraintEnd_toEndOf="@id/activityDescricao"
+            app:layout_constraintStart_toStartOf="@id/activityDescricao" />
+
+        <Button
+            android:id="@+id/botaoSalvar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="SALVAR"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activityValor"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
