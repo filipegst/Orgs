@@ -3,31 +3,34 @@ package br.com.orgs.ui.activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import br.com.orgs.R
 import br.com.orgs.dao.ProdutosDao
+import br.com.orgs.databinding.ActivityFormularioBinding
 import br.com.orgs.model.Produtos
 import java.math.BigDecimal
 
-class FormularioActivity : AppCompatActivity(R.layout.activity_formulario) {
+class FormularioActivity : AppCompatActivity() {
+
+    private val binding by lazy {
+        ActivityFormularioBinding.inflate(layoutInflater)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         configuraBotaoSalvar()
     }
 
     private fun configuraBotaoSalvar() {
-        val botaoSalvar = findViewById<Button>(R.id.botaoSalvar)
+        val botaoSalvar = binding.botaoSalvar
         botaoSalvar.setOnClickListener(criaProduto())
     }
 
     private fun criaProduto(): (View) -> Unit = {
-        val campoNome = findViewById<TextView>(R.id.activityNome)
+        val campoNome = binding.activityNome
         val nome = campoNome.text.toString()
-        val campoDescricao = findViewById<TextView>(R.id.activityDescricao)
+        val campoDescricao = binding.activityDescricao
         val descricao = campoDescricao.text.toString()
-        val campoValor = findViewById<TextView>(R.id.activityValor)
+        val campoValor = binding.activityValor
         val valorEmTexto = campoValor.text.toString()
         val valor = if (valorEmTexto.isBlank()) {
             BigDecimal.ZERO

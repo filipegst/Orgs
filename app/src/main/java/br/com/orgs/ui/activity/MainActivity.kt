@@ -2,23 +2,26 @@ package br.com.orgs.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import br.com.orgs.R
 import br.com.orgs.dao.ProdutosDao
+import br.com.orgs.databinding.ActivityMainBinding
 import br.com.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
-class MainActivity: AppCompatActivity(R.layout.activity_main) {
+class MainActivity: AppCompatActivity() {
 
     val dao = ProdutosDao()
     val adapter = ListaProdutosAdapter(this, dao.buscaProdutos())
 
+    private val binding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState )
           configuraReciclerView()
+        setContentView(binding.root)
           configuraFab()
+
 
     }
 
@@ -29,7 +32,7 @@ class MainActivity: AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun configuraFab() {
-        val fab = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        val fab = binding.floatingActionButton
         fab.setOnClickListener {
             val intent = Intent(this, FormularioActivity::class.java)
             startActivity(intent)
@@ -37,7 +40,7 @@ class MainActivity: AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun configuraReciclerView() {
-        val reciclerView = findViewById<RecyclerView>(R.id.recycler)
+        val reciclerView = binding.recycler
         reciclerView.adapter = adapter
     }
 }
