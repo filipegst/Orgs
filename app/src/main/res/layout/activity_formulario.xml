@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,34 +13,34 @@
 
         <EditText
             android:id="@+id/activityNome"
-            android:hint="Nome"
-            android:layout_margin="16dp"
             android:layout_width="0dp"
-            android:inputType="text"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="16dp"
+            android:hint="Nome"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/activityDescricao"
-            android:hint="Descrição"
             android:layout_width="0dp"
-            android:inputType="text"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/activityNome"
+            android:hint="Descrição"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="@id/activityNome"
-            app:layout_constraintStart_toStartOf="@id/activityNome" />
+            app:layout_constraintStart_toStartOf="@id/activityNome"
+            app:layout_constraintTop_toBottomOf="@id/activityNome" />
 
         <EditText
             android:id="@+id/activityValor"
-            android:hint="Valor"
             android:layout_width="0dp"
-            android:inputType="numberDecimal"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/activityDescricao"
+            android:hint="Valor"
+            android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="@id/activityDescricao"
-            app:layout_constraintStart_toStartOf="@id/activityDescricao" />
+            app:layout_constraintStart_toStartOf="@id/activityDescricao"
+            app:layout_constraintTop_toBottomOf="@id/activityDescricao" />
 
         <Button
             android:id="@+id/botaoSalvar"
@@ -49,11 +48,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="SALVAR"
-            app:layout_constraintVertical_bias="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activityValor"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activityValor"
+            app:layout_constraintVertical_bias="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

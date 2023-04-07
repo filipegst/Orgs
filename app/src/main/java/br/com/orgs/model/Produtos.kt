@@ -1,8 +1,5 @@
 package br.com.orgs.model
 
-
-
-
 import java.math.BigDecimal
 
 data class Produtos (

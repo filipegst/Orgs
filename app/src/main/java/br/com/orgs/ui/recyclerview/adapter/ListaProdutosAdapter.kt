@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.orgs.databinding.ProductItemBinding
 import br.com.orgs.model.Produtos
+import java.math.BigDecimal
+import java.text.NumberFormat
+import java.util.*
 
 class ListaProdutosAdapter(
     private val context: Context,
@@ -21,9 +24,16 @@ class ListaProdutosAdapter(
                 val descricao = binding.productItemDescricao
                 descricao.text = produto.descricao
                 val valor = binding.productItemValor
-                valor.text = produto.valor.toPlainString()
+                valor.text = fornataParaReal(produto.valor)
             }
+
+        private fun fornataParaReal (valor:BigDecimal):String {
+            val formatador = NumberFormat.getCurrencyInstance(Locale("pr","br"))
+            return formatador.format(valor)
+        }
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(context)
