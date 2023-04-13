@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.orgs.databinding.ProductItemBinding
 import br.com.orgs.model.Produtos
+import coil.load
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.*
@@ -20,11 +21,12 @@ class ListaProdutosAdapter(
     class ViewHolder(private val binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
             fun vincula(produto: Produtos) {
                 val nome = binding.productItemNome
-                nome.text = produto.nome
+                nome.text = produto.Nome
                 val descricao = binding.productItemDescricao
-                descricao.text = produto.descricao
+                descricao.text = produto.Descricao
                 val valor = binding.productItemValor
-                valor.text = fornataParaReal(produto.valor)
+                valor.text = fornataParaReal(produto.Valor)
+                binding.imageView.load(produto.imagem)
             }
 
         private fun fornataParaReal (valor:BigDecimal):String {

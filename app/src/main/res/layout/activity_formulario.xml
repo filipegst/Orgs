@@ -11,36 +11,62 @@
         android:layout_height="wrap_content"
         tools:context=".ui.activity.FormularioActivity">
 
-        <EditText
-            android:id="@+id/activityNome"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/activityNomeLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Nome"
-            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/activityFormularioImagem">
 
-        <EditText
-            android:id="@+id/activityDescricao"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activityNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/activityDescricaoLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:hint="Descrição"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="@id/activityNome"
-            app:layout_constraintStart_toStartOf="@id/activityNome"
-            app:layout_constraintTop_toBottomOf="@id/activityNome" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activityNomeLayout">
 
-        <EditText
-            android:id="@+id/activityValor"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activityDescricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/activityValorLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:hint="Valor"
-            android:inputType="numberDecimal"
-            app:layout_constraintEnd_toEndOf="@id/activityDescricao"
-            app:layout_constraintStart_toStartOf="@id/activityDescricao"
-            app:layout_constraintTop_toBottomOf="@id/activityDescricao" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activityDescricaoLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activityValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/botaoSalvar"
@@ -51,8 +77,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activityValor"
+            app:layout_constraintTop_toBottomOf="@id/activityValorLayout"
             app:layout_constraintVertical_bias="1" />
+
+        <ImageView
+            android:id="@+id/activityFormularioImagem"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/imagem_padrao" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
