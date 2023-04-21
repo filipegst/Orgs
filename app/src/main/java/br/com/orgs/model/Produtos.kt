@@ -8,5 +8,4 @@ data class Produtos (
     val Valor : BigDecimal,
     val imagem : String? = null
 
-
-        )
+)
