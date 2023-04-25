@@ -20,6 +20,9 @@
         </activity>
 
         <activity
+            android:name=".ui.activity.DetalheActivity" >
+        </activity>
+        <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>

@@ -24,6 +24,7 @@ class MainActivity: AppCompatActivity() {
 
 
 
+
     }
 
     override fun onResume() {
@@ -43,5 +44,11 @@ class MainActivity: AppCompatActivity() {
     private fun configuraReciclerView() {
         val reciclerView = binding.recycler
         reciclerView.adapter = adapter
+        adapter.clicaNoItemListener ={
+            val intent = Intent(this, DetalheActivity::class.java).apply {
+                putExtra("Produtos",it)
+            }
+            startActivity(intent)
+        }
     }
 }
