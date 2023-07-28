@@ -1,16 +1,23 @@
 package br.com.orgs.ui.activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
+import android.widget.AdapterView
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import br.com.orgs.dao.ProdutosDao
+import br.com.orgs.R
+import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ActivityMainBinding
 import br.com.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
 
+private const val TAG = "detalhesproduto"
 
-class MainActivity: AppCompatActivity() {
 
-    val dao = ProdutosDao()
-    val adapter = ListaProdutosAdapter(this, dao.buscaProdutos())
+class ListaProdutos: AppCompatActivity() {
+
+    val adapter = ListaProdutosAdapter(this)
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -22,14 +29,14 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
           configuraFab()
 
-
-
-
     }
+
 
     override fun onResume() {
             super.onResume()
-            adapter.atualiza(dao.buscaProdutos())
+        val db =AppDatabase.instancia(this)
+        val produtoDao= db.produtoDao()
+        adapter.atualiza(produtoDao.buscaTodos())
 
     }
 
@@ -40,6 +47,7 @@ class MainActivity: AppCompatActivity() {
             startActivity(intent)
         }
     }
+
 
     private fun configuraReciclerView() {
         val reciclerView = binding.recycler

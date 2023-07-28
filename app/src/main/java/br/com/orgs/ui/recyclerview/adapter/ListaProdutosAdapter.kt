@@ -1,32 +1,55 @@
 package br.com.orgs.ui.recyclerview.adapter
 
+import android.content.ClipData.Item
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import br.com.orgs.R
 import br.com.orgs.databinding.ProductItemBinding
 import br.com.orgs.extensions.carregarImagem
 import br.com.orgs.extensions.fornataParaReal
 import br.com.orgs.model.Produtos
 
+private const val TAG = "detalheProduto"
 class ListaProdutosAdapter(
     private val context: Context,
-    produtos: List<Produtos>,
-    var clicaNoItemListener: (produto: Produtos) -> Unit = {}
+    produtos: List<Produtos> = emptyList(),
+    var clicaNoItemListener: (produto: Produtos) -> Unit = {},
+    var clicaNoEdit:(produto: Produtos) -> Unit = {},
+    var clicaNoDelete:(produto: Produtos) -> Unit = {}
+
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
     val produtos = produtos.toMutableList()
 
     inner class ViewHolder(private val binding: ProductItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), PopupMenu.OnMenuItemClickListener
+
+
+    {
+
 
 
         private lateinit var produto: Produtos
 
+
         init {
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
                 if (::produto.isInitialized) {
                     clicaNoItemListener(produto)
                 }
+            }
+            itemView.setOnLongClickListener {
+                PopupMenu(context, itemView).apply {
+                    menuInflater.inflate(R.menu.popup_menu, menu)
+
+                    setOnMenuItemClickListener (this@ViewHolder)
+                }.show()
+                true
             }
         }
 
@@ -41,7 +64,19 @@ class ListaProdutosAdapter(
             binding.imageView.carregarImagem(produto.imagem)
         }
 
-
+        override fun onMenuItemClick(item: MenuItem?): Boolean {
+            item?.let {
+                when (it.itemId) {
+                    R.id.menu_editar -> {
+                        clicaNoEdit(produto)
+                    }
+                    R.id.menu_delete -> {
+                        clicaNoDelete(produto)
+                    }
+                }
+            }
+            return true
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Carregar"
-            app:icon="@drawable/action_refresh"
+            app:icon="@drawable/ic_refresh"
             app:layout_constraintBottom_toBottomOf="@+id/imagemFormulario"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -23,7 +23,7 @@
             android:name=".ui.activity.DetalheActivity" >
         </activity>
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.ListaProdutos"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

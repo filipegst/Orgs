@@ -2,7 +2,7 @@ package br.com.orgs.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import br.com.orgs.dao.ProdutosDao
+import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ActivityFormularioBinding
 import br.com.orgs.extensions.carregarImagem
 import br.com.orgs.model.Produtos
@@ -33,10 +33,12 @@ class FormularioActivity : AppCompatActivity() {
 
     private fun configuraBotaoSalvar() {
         val botaoSalvar = binding.botaoSalvar
-        val dao = ProdutosDao()
+        val  db = AppDatabase.instancia(this)
+
+        val produtoDao= db.produtoDao()
             botaoSalvar.setOnClickListener {
                 val produtoNovo = criaProduto()
-                dao.adiciona(produtoNovo)
+                produtoDao.salva(produtoNovo)
                 finish()
             }
     }
