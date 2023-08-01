@@ -54,7 +54,7 @@ class ListaProdutos: AppCompatActivity() {
         reciclerView.adapter = adapter
         adapter.clicaNoItemListener ={
             val intent = Intent(this, DetalheActivity::class.java).apply {
-                putExtra("Produtos",it)
+                putExtra(CHAVE_ID,it.id)
             }
             startActivity(intent)
         }

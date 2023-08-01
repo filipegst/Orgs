@@ -9,13 +9,19 @@ import br.com.orgs.model.Produtos
 import br.com.orgs.ui.FormularioImagemDialog
 import java.math.BigDecimal
 
+@Suppress("DEPRECATION")
 class FormularioActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityFormularioBinding.inflate(layoutInflater)
     }
+    val produtoDao by lazy {
+        val db = AppDatabase.instancia(this)
+        db.produtoDao()
+    }
 
     private var url: String? = null
+    var produtoId = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             setContentView(binding.root)
@@ -29,16 +35,30 @@ class FormularioActivity : AppCompatActivity() {
 
                     }
             }
+            produtoId = intent.getLongExtra(CHAVE_ID,0L)
         }
+
+    override fun onResume() {
+        super.onResume()
+        title = "Editar Produto"
+        produtoDao.buscaID(produtoId)?.let { preencheCampos(it) }
+    }
+
+
+    private fun preencheCampos(produto: Produtos) {
+        url = produto.imagem
+        binding.activityFormularioImagem.carregarImagem(produto.imagem)
+        binding.activityNome.setText(produto.Nome)
+        binding.activityDescricao.setText(produto.Descricao)
+        binding.activityValor.setText(produto.Valor.toPlainString())
+    }
 
     private fun configuraBotaoSalvar() {
         val botaoSalvar = binding.botaoSalvar
-        val  db = AppDatabase.instancia(this)
 
-        val produtoDao= db.produtoDao()
             botaoSalvar.setOnClickListener {
                 val produtoNovo = criaProduto()
-                produtoDao.salva(produtoNovo)
+             produtoDao.salva(produtoNovo)
                 finish()
             }
     }
@@ -56,7 +76,7 @@ class FormularioActivity : AppCompatActivity() {
                 BigDecimal(valorEmTexto)
             }
 
-        return Produtos(Nome = nome, Descricao = descricao, Valor = valor, imagem = url)
+        return Produtos(id=produtoId, Nome = nome, Descricao = descricao, Valor = valor, imagem = url)
     }
 
 }

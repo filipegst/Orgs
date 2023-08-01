@@ -1,5 +1,6 @@
 package br.com.orgs.ui.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,28 +10,56 @@ import android.widget.AdapterView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import br.com.orgs.R
+import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ActivityDetalhesBinding
 import br.com.orgs.extensions.carregarImagem
 import br.com.orgs.extensions.fornataParaReal
 import br.com.orgs.model.Produtos
 
 
-class DetalheActivity: AppCompatActivity(R.layout.activity_detalhes) {
+class DetalheActivity : AppCompatActivity(R.layout.activity_detalhes) {
+    private var produtoId: Long = 0L
+    private  var produto: Produtos? = null
     private val binding by lazy {
         ActivityDetalhesBinding.inflate(layoutInflater)
     }
-
+    val produtoDao by lazy {
+        AppDatabase.instancia(this).produtoDao()
+        }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_detalhe,menu)
+        menuInflater.inflate(R.menu.menu_detalhe, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onResume() {
+        super.onResume()
+        BuscaProduto()
+    }
+
+    private fun BuscaProduto() {
+        produto = produtoDao.buscaID(produtoId)
+        produto?.let {
+            prencherDetalhes(it)
+        } ?: finish()
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_delete -> { }
-        R.id.menu_editar -> { }
-        }
+            when (item.itemId) {
+                R.id.menu_delete -> {
+                    produto?.let {
+                        produtoDao.remove(it)
+                    }
+                    finish()
+                }
+
+
+                R.id.menu_editar -> {
+                    Intent (this,FormularioActivity::class.java).apply {
+                        putExtra(CHAVE_ID,produtoId)
+                        startActivity(this)
+                    }
+                }
+            }
         return super.onOptionsItemSelected(item)
     }
 
@@ -43,17 +72,14 @@ class DetalheActivity: AppCompatActivity(R.layout.activity_detalhes) {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun carregaProduto() {
-
-        intent.getParcelableExtra("Produtos",Produtos::class.java)?.let { produtoCaregado ->
-            prencherDetalhes(produtoCaregado)
-        }
+        produtoId = intent.getLongExtra(CHAVE_ID,0L)
     }
 
 
     private fun prencherDetalhes(produtoCaregado: Produtos) {
         with(binding) {
             activityDetalheImagem.carregarImagem(produtoCaregado.imagem)
-            detalheTitulo.text= produtoCaregado.Nome
+            detalheTitulo.text = produtoCaregado.Nome
             detalheDescricao.text = produtoCaregado.Descricao
             detalheValor.text = produtoCaregado.Valor.fornataParaReal()
         }
