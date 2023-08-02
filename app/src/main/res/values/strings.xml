@@ -3,4 +3,12 @@
     <string name="ola_android">Ola Android</string>
     <string name="edit">Editar</string>
     <string name="delete">Deletar</string>
+    <string name="descricao_desc">Descriçao Desc</string>
+    <string name="descricao_asc">Descrição Asc</string>
+    <string name="nome_desc">Nome Desc</string>
+    <string name="nome_asc">Nome ASc</string>
+    <string name="sort">Ordenar</string>
+    <string name="valor_asc">Valor Asc</string>
+    <string name="valor_desc">Valor Desc</string>
+    <string name="sem_ordem">Sem Ordem</string>
 </resources>

@@ -1,7 +1,9 @@
 package br.com.orgs.ui.activity
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import br.com.orgs.R
 import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ActivityFormularioBinding
 import br.com.orgs.extensions.carregarImagem
@@ -45,6 +47,7 @@ class FormularioActivity : AppCompatActivity() {
     }
 
 
+
     private fun preencheCampos(produto: Produtos) {
         url = produto.imagem
         binding.activityFormularioImagem.carregarImagem(produto.imagem)
@@ -55,7 +58,6 @@ class FormularioActivity : AppCompatActivity() {
 
     private fun configuraBotaoSalvar() {
         val botaoSalvar = binding.botaoSalvar
-
             botaoSalvar.setOnClickListener {
                 val produtoNovo = criaProduto()
              produtoDao.salva(produtoNovo)

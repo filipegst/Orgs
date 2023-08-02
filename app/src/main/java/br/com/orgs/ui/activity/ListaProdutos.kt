@@ -2,6 +2,7 @@ package br.com.orgs.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.PopupMenu
@@ -30,7 +31,10 @@ class ListaProdutos: AppCompatActivity() {
           configuraFab()
 
     }
-
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.formulario_menu,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
     override fun onResume() {
             super.onResume()
