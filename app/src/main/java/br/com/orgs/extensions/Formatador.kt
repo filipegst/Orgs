@@ -8,3 +8,4 @@ fun BigDecimal.fornataParaReal(): String {
     val formatador = NumberFormat.getCurrencyInstance(Locale("pr", "br"))
     return formatador.format(this)
 }
+

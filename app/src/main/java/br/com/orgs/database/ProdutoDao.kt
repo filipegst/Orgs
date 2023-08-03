@@ -23,4 +23,21 @@ interface ProdutoDao {
     @Query ("SELECT * FROM produtos WHERE id= :id")
     abstract fun buscaID(id:Long) : Produtos?
 
+    @Query ("SELECT * FROM produtos ORDER BY NOME ASC")
+    fun buscaNomeAsc(): List<Produtos>
+
+    @Query ("SELECT * FROM produtos ORDER BY NOME DESC")
+    fun buscaNomeDesc(): List<Produtos>
+
+    @Query ("SELECT * FROM produtos ORDER BY Descricao ASC")
+    fun buscaDescricaoAsc(): List<Produtos>
+
+    @Query ("SELECT * FROM produtos ORDER BY Descricao DESC")
+    fun buscaDescricaoDesc(): List<Produtos>
+
+    @Query ("SELECT * FROM produtos ORDER BY Valor ASC")
+    fun buscaValorAsc(): List<Produtos>
+
+    @Query ("SELECT * FROM produtos ORDER BY Valor DESC")
+    fun buscaValorDesc(): List<Produtos>
 }

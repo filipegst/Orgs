@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import br.com.orgs.R
 import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ActivityMainBinding
+import br.com.orgs.model.Produtos
 import br.com.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
 
 private const val TAG = "detalhesproduto"
@@ -23,7 +24,10 @@ class ListaProdutos: AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
+    val produtoDao by lazy {
+        val db = AppDatabase.instancia(this)
+        db.produtoDao()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState )
           configuraReciclerView()
@@ -36,10 +40,32 @@ class ListaProdutos: AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val produtoOrdenado : List<Produtos>? =  when (item.itemId){
+            R.id.menuNomeAsc ->
+                produtoDao.buscaNomeAsc()
+            R.id.menuNomeDesc ->
+                produtoDao.buscaNomeDesc()
+            R.id.menuDescricaoAsc ->
+            produtoDao.buscaDescricaoAsc()
+            R.id.menuDescricaoDesc ->
+                produtoDao.buscaDescricaoDesc()
+            R.id.menuValorAsc ->
+                produtoDao.buscaValorAsc()
+            R.id.menuValorDesc ->
+                produtoDao.buscaValorDesc()
+            R.id.semOrdem ->
+                produtoDao.buscaTodos()
+            else -> null
+        }
+        produtoOrdenado?.let {
+            adapter.atualiza(it)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onResume() {
             super.onResume()
-        val db =AppDatabase.instancia(this)
-        val produtoDao= db.produtoDao()
         adapter.atualiza(produtoDao.buscaTodos())
 
     }
