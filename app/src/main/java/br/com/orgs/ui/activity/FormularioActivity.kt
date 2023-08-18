@@ -1,17 +1,21 @@
 package br.com.orgs.ui.activity
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import br.com.orgs.R
+import androidx.lifecycle.lifecycleScope
 import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ActivityFormularioBinding
 import br.com.orgs.extensions.carregarImagem
 import br.com.orgs.model.Produtos
 import br.com.orgs.ui.FormularioImagemDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 
-@Suppress("DEPRECATION")
 class FormularioActivity : AppCompatActivity() {
 
     private val binding by lazy {
@@ -22,13 +26,13 @@ class FormularioActivity : AppCompatActivity() {
         db.produtoDao()
     }
 
+
     private var url: String? = null
     var produtoId = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             setContentView(binding.root)
         title = "Cadastrar Produto"
-
             configuraBotaoSalvar()
             binding.activityFormularioImagem.setOnClickListener {
                 FormularioImagemDialog(this)
@@ -43,28 +47,36 @@ class FormularioActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        title = "Editar Produto"
-        produtoDao.buscaID(produtoId)?.let { preencheCampos(it) }
-    }
+        lifecycleScope.launch  {
+                produtoDao.buscaID(produtoId)?.let {
+                        title = "Editar Produto"
+                        preencheCampos(it) }
+            }
+        }
 
 
 
     private fun preencheCampos(produto: Produtos) {
-        url = produto.imagem
-        binding.activityFormularioImagem.carregarImagem(produto.imagem)
-        binding.activityNome.setText(produto.Nome)
-        binding.activityDescricao.setText(produto.Descricao)
-        binding.activityValor.setText(produto.Valor.toPlainString())
-    }
+            url = produto.imagem
+            binding.activityFormularioImagem.carregarImagem(produto.imagem)
+            binding.activityNome.setText(produto.Nome)
+            binding.activityDescricao.setText(produto.Descricao)
+            binding.activityValor.setText(produto.Valor.toPlainString())
+            }
+
 
     private fun configuraBotaoSalvar() {
         val botaoSalvar = binding.botaoSalvar
             botaoSalvar.setOnClickListener {
+                lifecycleScope.launch {
                 val produtoNovo = criaProduto()
              produtoDao.salva(produtoNovo)
                 finish()
+                     }
             }
-    }
+        }
+
+
 
     private fun criaProduto(): Produtos {
         val campoNome = binding.activityNome

@@ -8,19 +8,22 @@ import androidx.room.TypeConverters
 import br.com.orgs.converter.Converters
 import br.com.orgs.model.Produtos
 
-@Database(entities = [Produtos::class], version = 1)
+@Database(entities = [Produtos::class], version = 1, exportSchema = true)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun produtoDao(): ProdutoDao
 
     companion object {
-        fun instancia (context: Context) :AppDatabase  {
-       return Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            "orgs.db"
-        ).allowMainThreadQueries().build()
+        @Volatile
+        private var db: AppDatabase? = null
+        fun instancia(context: Context): AppDatabase {
+            return this.db ?: Room.databaseBuilder(
+                context,
+                AppDatabase::class.java,
+                "orgs.db"
+            ).build().also {
+                this.db = it
+            }
         }
     }
-
 }

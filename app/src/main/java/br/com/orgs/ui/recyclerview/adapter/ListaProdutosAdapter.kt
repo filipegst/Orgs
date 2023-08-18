@@ -1,24 +1,26 @@
 package br.com.orgs.ui.recyclerview.adapter
 
-import android.content.ClipData.Item
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import br.com.orgs.R
+import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ProductItemBinding
 import br.com.orgs.extensions.carregarImagem
 import br.com.orgs.extensions.fornataParaReal
 import br.com.orgs.model.Produtos
 
 private const val TAG = "detalheProduto"
+
+
 class ListaProdutosAdapter(
     private val context: Context,
     produtos: List<Produtos> = emptyList(),
+
     var clicaNoItemListener: (produto: Produtos) -> Unit = {},
     var clicaNoEdit:(produto: Produtos) -> Unit = {},
     var clicaNoDelete:(produto: Produtos) -> Unit = {}
@@ -26,6 +28,9 @@ class ListaProdutosAdapter(
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
     val produtos = produtos.toMutableList()
 
+    val produtoDao by lazy {
+        AppDatabase.instancia(context).produtoDao()
+    }
     inner class ViewHolder(private val binding: ProductItemBinding) :
         RecyclerView.ViewHolder(binding.root), PopupMenu.OnMenuItemClickListener
 
@@ -62,6 +67,14 @@ class ListaProdutosAdapter(
             val valor = binding.productItemValor
             valor.text =produto.Valor.fornataParaReal()
             binding.imageView.carregarImagem(produto.imagem)
+            val visibilidade = if (produto.imagem != null) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+
+            binding.imageView.visibility = visibilidade
+
         }
 
         override fun onMenuItemClick(item: MenuItem?): Boolean {
