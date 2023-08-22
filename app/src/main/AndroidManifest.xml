@@ -19,11 +19,19 @@
             android:exported="true">
         </activity>
 
+        <activity android:name=".ui.activity.ListaProdutos"
+            android:exported="true">
+        </activity>
+
+        <activity android:name=".ui.activity.ActivityCadastro"
+            android:exported="true">
+        </activity>
+
         <activity
             android:name=".ui.activity.DetalheActivity" >
         </activity>
         <activity
-            android:name=".ui.activity.ListaProdutos"
+            android:name=".ui.activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
