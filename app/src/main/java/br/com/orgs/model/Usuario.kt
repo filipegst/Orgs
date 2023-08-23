@@ -1,6 +1,11 @@
 package br.com.orgs.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Usuario(
-    val senha : String,
-    val usuario: String
+    @PrimaryKey
+    val usuario: String,
+    val senha : String
 )
