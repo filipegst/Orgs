@@ -1,21 +1,27 @@
 package br.com.orgs.ui.activity
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import br.com.orgs.R
 import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ActivityMainBinding
+import br.com.orgs.extensions.vaiPara
 import br.com.orgs.model.Produtos
+import br.com.orgs.preferences.dataStore
+import br.com.orgs.preferences.usuarioLogadoPreferences
 import br.com.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 private const val TAG = "detalhesproduto"
 
 
-class ListaProdutos: AppCompatActivity() {
+class ListaProdutos : AppCompatActivity() {
 
     val adapter = ListaProdutosAdapter(this)
 
@@ -26,19 +32,54 @@ class ListaProdutos: AppCompatActivity() {
         val db = AppDatabase.instancia(this)
         db.produtoDao()
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState )
-          configuraReciclerView()
-        setContentView(binding.root)
-          configuraFab()
-        lifecycleScope.launch {
-            produtoDao.buscaTodos().collect{ produtos->
-                adapter.atualiza(produtos)
-            }
-              }
+    private val usuarioDao by lazy {
+        AppDatabase.instancia(this).usuarioDao()
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        configuraReciclerView()
+        setContentView(binding.root)
+        configuraFab()
+        lifecycleScope.launch {
+            verificaUsuarioLogado()
+        }
+    }
+
+
+    private suspend fun verificaUsuarioLogado() {
+        dataStore.data.collect { preferences ->
+            preferences[usuarioLogadoPreferences]?.let { usuarioId ->
+                buscaUsuario(usuarioId)
+            } ?: vaiParaLogin()
+        }
+    }
+
+    private fun buscaUsuario(usuarioId: String) {
+        lifecycleScope.launch {
+            usuarioDao.buscaId(usuarioId).firstOrNull().let {
+                launch {
+                    buscaProdutoUsuario()
+                }
+            }
+        }
+    }
+
+
+    private suspend fun buscaProdutoUsuario() {
+        produtoDao.buscaTodos().collect { produtos ->
+            adapter.atualiza(produtos)
+        }
+    }
+
+
+    private fun vaiParaLogin() {
+        vaiPara(LoginActivity::class.java)
+        finish()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.formulario_menu,menu)
+        menuInflater.inflate(R.menu.formulario_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -64,13 +105,25 @@ class ListaProdutos: AppCompatActivity() {
                     produtoDao.buscaValorDesc()
 
                 R.id.semOrdem ->
-                   produtoDao.semOrdem()
+                    produtoDao.semOrdem()
+
 
                 else -> null
             }
             produtoOrdenado?.let {
                 adapter.atualiza(it as List<Produtos>)
             }
+
+            lifecycleScope.launch {
+                when (item.itemId) {
+                    R.id.menu_logout -> {
+                        dataStore.edit { preferences ->
+                            preferences.remove(usuarioLogadoPreferences)
+                        }
+                    }
+                }
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -86,9 +139,9 @@ class ListaProdutos: AppCompatActivity() {
     private fun configuraReciclerView() {
         val reciclerView = binding.recycler
         reciclerView.adapter = adapter
-        adapter.clicaNoItemListener ={
+        adapter.clicaNoItemListener = {
             val intent = Intent(this, DetalheActivity::class.java).apply {
-                putExtra(CHAVE_ID,it.id)
+                putExtra(CHAVE_ID, it.id)
             }
             startActivity(intent)
         }

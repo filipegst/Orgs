@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import br.com.orgs.database.AppDatabase
 import br.com.orgs.databinding.ActivityCadastroBinding
+import br.com.orgs.extensions.toast
 import br.com.orgs.model.Usuario
 import kotlinx.coroutines.launch
 
@@ -29,27 +30,26 @@ class ActivityCadastro : AppCompatActivity() {
     private fun configuraBotaoCadastrar() {
         binding.activityFormularioCadastroBotaoCadastrar.setOnClickListener {
             val novoUsuario = criaUsuario()
-            Log.i("CadastroUsuario","onCreate $novoUsuario")
-            lifecycleScope.launch {
-                try {
-                    dao.salva(novoUsuario)
-                    finish()
-                } catch (e: Exception) {
-                    Log.e("CadastroUsuario","ConfiguraBotaoCadastrar",e)
-                    Toast.makeText(
-                        this@ActivityCadastro,
-                        "Falha ao Cadastar Usuario",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+            cadastra(novoUsuario)
+        }
+    }
+
+    private fun cadastra(novoUsuario: Usuario) {
+        lifecycleScope.launch {
+            try {
+                dao.salva(novoUsuario)
+                finish()
+            } catch (e: Exception) {
+                Log.e("CadastroUsuario", "ConfiguraBotaoCadastrar", e)
+                toast("Falha ao Cadastar Usuario")
             }
         }
     }
 
     private fun criaUsuario(): Usuario {
-        val usuario = binding.activityUsuario.text.toString()
+        val id = binding.activityUsuario.text.toString()
         val senha = binding.activitySenha.text.toString()
-        return Usuario(usuario,senha)
+        return Usuario(id,senha)
 
     }
 }

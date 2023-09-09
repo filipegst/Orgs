@@ -15,4 +15,5 @@
     <string name="password">Senha</string>
     <string name="enter">Entrar</string>
     <string name="cadastrar_usuario">Cadastrar Usuario</string>
+    <string name="logout">Sair\n</string>
 </resources>

@@ -8,6 +8,7 @@
         android:title="@string/sort"
         app:showAsAction="ifRoom">
 
+
         <menu>
             <item
                 android:id="@+id/menuNomeAsc"
@@ -38,5 +39,14 @@
                 android:title="@string/sem_ordem"
                 />
             </menu>
+
     </item>
+
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/baseline_exit_to_app_24"
+        android:title="@string/logout"
+        app:showAsAction="ifRoom" />
+
 </menu>
+
