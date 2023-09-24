@@ -14,7 +14,7 @@ import br.com.orgs.model.Usuario
     entities =
     [Produtos::class,
         Usuario::class],
-    version = 3, exportSchema = true
+    version = 4, exportSchema = true
 )
 
 

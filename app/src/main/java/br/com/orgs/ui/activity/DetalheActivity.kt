@@ -45,13 +45,14 @@ class DetalheActivity : AppCompatActivity(R.layout.activity_detalhes) {
 
     private fun BuscaProduto() {
         lifecycleScope.launch {
-                produto = produtoDao.buscaID(produtoId)
+            produtoDao.buscaID(produtoId).collect { produtoEncontrado ->
+                produto = produtoEncontrado
                 produto?.let {
                     prencherDetalhes(it)
                 } ?: finish()
             }
         }
-
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
             when (item.itemId) {
